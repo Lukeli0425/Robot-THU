@@ -243,33 +243,54 @@ def main():
     print(__file__ + " start!!")
 
     # start and goal position
-    sx = 10.0  # [m]
-    sy = 10.0  # [m]
-    gx = 50.0  # [m]
-    gy = 50.0  # [m]
-    grid_size = 2.0  # [m]
-    robot_radius = 1.0  # [m]
+    sx = 10  # cm
+    sy = 10  # cm
+    gx = 150.0  # cm
+    gy = 150.0  # cm
+    grid_size = 1  # cm
+    robot_radius = 8.  # cm
+
 
     # set obstacle positions
-    ox, oy = [10], [13]
-    for i in range(-10, 60):
-        ox.append(i)
-        oy.append(-10.0)
-    for i in range(-10, 60):
-        ox.append(60.0)
-        oy.append(i)
-    for i in range(-10, 61):
-        ox.append(i)
-        oy.append(60.0)
-    for i in range(-10, 61):
-        ox.append(-10.0)
-        oy.append(i)
-    for i in range(-10, 40):
-        ox.append(20.0)
-        oy.append(i)
-    for i in range(0, 40):
-        ox.append(40.0)
-        oy.append(60.0 - i)
+    obstacles = [[[24.22, 35.75], [48.22, 35.75], [48.22, 59.75], [24.22, 59.75]], 
+             [[59, 112], [83, 112], [83, 136], [59, 136]], 
+             [[156.2, 30.3], [180.2, 30.3], [180.2, 54.3], [156.2, 54.3]], 
+             [[261.1, 73.2], [285.1, 73.2], [285.1, 97.2], [261.1, 97.2]], 
+             [[185.1, 113], [209.1, 113], [209.1, 137], [185.1, 137]], 
+             [[263.6, 143.9], [287.6, 143.9], [287.6, 167.9], [263.6, 167.9]], 
+             [[90.7, 199.6], [114.7, 199.6], [114.7, 223.6], [90.7, 223.6]], 
+             [[7, 222.2], [31, 222.2], [31, 246.2], [7, 246.2]], 
+             [[208.2, 252.6], [232.2, 252.6], [232.2, 276.6], [208.2, 276.6]],
+             [[180.9, 204.2], [207.2, 204.2], [207.2, 214.2], [180.9, 214.2]]]
+    
+    ox, oy = [], []
+    for column in obstacles:
+        # print(column[0][0],column[1][0],column[0][1],column[2][1])
+        for x in range(grid_size*int(column[0][0]/grid_size),grid_size*int(column[1][0]/grid_size)):
+            for y in range(grid_size*int(column[0][1]/grid_size),grid_size*int(column[2][1]/grid_size)):
+                ox.append(x)
+                oy.append(y)
+                
+        
+    # ox, oy = [10], [13]
+    # for i in range(-10, 60):
+    #     ox.append(i)
+    #     oy.append(-10.0)
+    # for i in range(-10, 60):
+    #     ox.append(60.0)
+    #     oy.append(i)
+    # for i in range(-10, 61):
+    #     ox.append(i)
+    #     oy.append(60.0)
+    # for i in range(-10, 61):
+    #     ox.append(-10.0)
+    #     oy.append(i)
+    # for i in range(-10, 40):
+    #     ox.append(20.0)
+    #     oy.append(i)
+    # for i in range(0, 40):
+    #     ox.append(40.0)
+    #     oy.append(60.0 - i)
 
     if show_animation:  # pragma: no cover
         plt.plot(ox, oy, ".k")
