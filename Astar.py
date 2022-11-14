@@ -86,8 +86,8 @@ class AStarPlanner:
 
             # show graph
             if show_animation:  # pragma: no cover
-                plt.plot(self.calc_grid_position(current.x, self.min_x),
-                         self.calc_grid_position(current.y, self.min_y), "xc")
+                plt.plot(self.calc_grid_position(current.y, self.min_y),
+                         self.calc_grid_position(current.x, self.min_x),"xc")
                 # for stopping simulation with the esc key.
                 plt.gcf().canvas.mpl_connect('key_release_event', lambda event: [exit(0) if event.key == 'escape' else None])
                 if len(closed_set.keys()) % 10 == 0:
@@ -242,16 +242,18 @@ class AStarPlanner:
 def main():
     print(__file__ + " start!!")
 
-    # start and goal position
-    sx = 10  # cm
-    sy = 10  # cm
-    gx = 150.0  # cm
-    gy = 150.0  # cm
-    grid_size = 1  # cm
-    robot_radius = 8.  # cm
+    grid_size = 3.5 # cm
+    x_width = 294 # cm
+    y_width = 294 # cm
+    sx = 50/grid_size  # cm
+    sy = 20/grid_size  # cm
+    gx = 250.0/grid_size  # cm
+    gy = 80.0/grid_size  # cm
+    robot_radius = 8/grid_size # cm
 
 
     # set obstacle positions
+    ox, oy = [], []
     obstacles = [[[24.22, 35.75], [48.22, 35.75], [48.22, 59.75], [24.22, 59.75]], 
              [[59, 112], [83, 112], [83, 136], [59, 136]], 
              [[156.2, 30.3], [180.2, 30.3], [180.2, 54.3], [156.2, 54.3]], 
@@ -262,29 +264,25 @@ def main():
              [[7, 222.2], [31, 222.2], [31, 246.2], [7, 246.2]], 
              [[208.2, 252.6], [232.2, 252.6], [232.2, 276.6], [208.2, 276.6]],
              [[180.9, 204.2], [207.2, 204.2], [207.2, 214.2], [180.9, 214.2]]]
-    
-    ox, oy = [], []
     for column in obstacles:
         # print(column[0][0],column[1][0],column[0][1],column[2][1])
-        for x in range(grid_size*int(column[0][0]/grid_size),grid_size*int(column[1][0]/grid_size)):
-            for y in range(grid_size*int(column[0][1]/grid_size),grid_size*int(column[2][1]/grid_size)):
+        for x in range(int(column[0][0]/grid_size),int(column[1][0]/grid_size)):
+            for y in range(int(column[0][1]/grid_size),int(column[2][1]/grid_size)):
                 ox.append(x)
                 oy.append(y)
-                
-        
-    # ox, oy = [10], [13]
-    # for i in range(-10, 60):
-    #     ox.append(i)
-    #     oy.append(-10.0)
-    # for i in range(-10, 60):
-    #     ox.append(60.0)
-    #     oy.append(i)
-    # for i in range(-10, 61):
-    #     ox.append(i)
-    #     oy.append(60.0)
-    # for i in range(-10, 61):
-    #     ox.append(-10.0)
-    #     oy.append(i)
+
+    for i in range(0, int(x_width/grid_size)):
+        ox.append(i)
+        oy.append(0.0)
+    for i in range(0, int(y_width/grid_size)):
+        ox.append(int(x_width/grid_size))
+        oy.append(i)
+    for i in range(0, int(x_width/grid_size)):
+        ox.append(i)
+        oy.append(int(y_width/grid_size))
+    for i in range(0, int(y_width/grid_size)):
+        ox.append(0.0)
+        oy.append(i)
     # for i in range(-10, 40):
     #     ox.append(20.0)
     #     oy.append(i)
@@ -293,9 +291,10 @@ def main():
     #     oy.append(60.0 - i)
 
     if show_animation:  # pragma: no cover
-        plt.plot(ox, oy, ".k")
-        plt.plot(sx, sy, "og")
-        plt.plot(gx, gy, "xb")
+        plt.figure(figsize=(8,8))
+        plt.plot(oy, ox, ".k")
+        plt.plot(sy, sx, "og")
+        plt.plot(gy, gx, "xb")
         plt.grid(True)
         plt.axis("equal")
 
@@ -303,7 +302,7 @@ def main():
     rx, ry = a_star.planning(sx, sy, gx, gy)
 
     if show_animation:  # pragma: no cover
-        plt.plot(rx, ry, "-r")
+        plt.plot(ry, rx, "-r")
         plt.pause(0.001)
         plt.show()
 
