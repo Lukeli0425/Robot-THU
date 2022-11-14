@@ -8,6 +8,7 @@ __pycache__/
 
 tempCodeRunnerFile.py
 .vscode
+.DS_Store
 
 # Distribution / packaging
 .Python
