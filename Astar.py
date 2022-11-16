@@ -91,7 +91,7 @@ class AStarPlanner:
                 # for stopping simulation with the esc key.
                 plt.gcf().canvas.mpl_connect('key_release_event', lambda event: [exit(0) if event.key == 'escape' else None])
                 if len(closed_set.keys()) % 10 == 0:
-                    plt.pause(0.001)
+                    plt.pause(0.0001)
 
             # 通过追踪当前位置current.x和current.y来动态展示路径寻找
             if current.x == goal_node.x and current.y == goal_node.y:
@@ -116,7 +116,7 @@ class AStarPlanner:
                 else: # penalty for change of direction
                     node = self.Node(current.x + self.motion[i][0],
                                     current.y + self.motion[i][1],
-                                    current.cost + self.motion[i][2]+20, c_id)
+                                    current.cost + self.motion[i][2]+10, c_id)
                 last_x, last_y = self.motion[i][0], self.motion[i][1]
                 n_id = self.calc_grid_index(node)
 
@@ -148,7 +148,8 @@ class AStarPlanner:
             rx.append(self.calc_grid_position(n.x, self.min_x))
             ry.append(self.calc_grid_position(n.y, self.min_y))
             parent_index = n.parent_index
-
+        rx.reverse()
+        ry.reverse()
         return rx, ry
 
     @staticmethod
@@ -162,7 +163,7 @@ class AStarPlanner:
         Returns:
             _type_: _description_
         """
-        w = 1.0  # weight of heuristic
+        w = 0.5  # weight of heuristic
         d = w * math.hypot(n1.x - n2.x, n1.y - n2.y)
         return d
 
@@ -281,12 +282,6 @@ def get_AStarPlanner(grid_size=3.5):
     for i in range(0, int(y_width)):
         ox.append(0.0)
         oy.append(i)
-    # for i in range(-10, 40):
-    #     ox.append(20.0)
-    #     oy.append(i)
-    # for i in range(0, 40):
-    #     ox.append(40.0)
-    #     oy.append(60.0 - i)
 
     if show_animation:  # pragma: no cover
         plt.figure(figsize=(8,8))
@@ -300,21 +295,17 @@ def get_AStarPlanner(grid_size=3.5):
 
 if __name__ == '__main__':
     grid_size = 8 # cm
-    sx = 50  # cm
-    sy = 20  # cm
-    gx = 250.0  # cm
-    gy = 260.0  # cm
     
     a_star = get_AStarPlanner(grid_size=grid_size)
-    rx, ry = a_star.planning(sx, sy, gx, gy)
-    rx.reverse()
-    ry.reverse()
-    print(rx)
-    print(ry)
+    
+    points = [[280,120], [190,100], [170,70], [75,100], [100,180]]
+    for i in range(len(points)-1):
+        start, goal = points[i], points[i+1]
+        rx, ry = a_star.planning(start[0], start[1], goal[0], goal[1])
 
-    if show_animation:  # pragma: no cover
-        plt.plot(sy, sx, "og")
-        plt.plot(gy, gx, "xb")
+        plt.plot(start[1], start[0], "og")
+        plt.plot(goal[1], goal[0], "xb")
         plt.plot(ry, rx, "-r")
-        plt.pause(0.001)
-        plt.show()
+        print(f'Arriving at {goal}!')
+        plt.pause(0.0001)
+    plt.show()
