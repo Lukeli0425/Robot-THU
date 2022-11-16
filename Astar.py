@@ -84,14 +84,14 @@ class AStarPlanner:
                 key=lambda o: open_set[o].cost + self.calc_heuristic(goal_node, open_set[o]))
             current = open_set[c_id]
 
-            # show graph
-            if show_animation:  # pragma: no cover
-                plt.plot(self.calc_grid_position(current.y, self.min_y),
-                         self.calc_grid_position(current.x, self.min_x),"xc")
-                # for stopping simulation with the esc key.
-                plt.gcf().canvas.mpl_connect('key_release_event', lambda event: [exit(0) if event.key == 'escape' else None])
-                if len(closed_set.keys()) % 10 == 0:
-                    plt.pause(0.0001)
+            # # show graph
+            # if show_animation:  # pragma: no cover
+            #     plt.plot(self.calc_grid_position(current.y, self.min_y),
+            #              self.calc_grid_position(current.x, self.min_x),"xc")
+            #     # for stopping simulation with the esc key.
+            #     plt.gcf().canvas.mpl_connect('key_release_event', lambda event: [exit(0) if event.key == 'escape' else None])
+            #     if len(closed_set.keys()) % 10 == 0:
+            #         plt.pause(0.0001)
 
             # 通过追踪当前位置current.x和current.y来动态展示路径寻找
             if current.x == goal_node.x and current.y == goal_node.y:
@@ -246,7 +246,7 @@ class AStarPlanner:
 
         return motion
 
-def get_AStarPlanner(grid_size=3.5):
+def get_AStarPlanner(grid_size=8):
     x_width = 294 # cm
     y_width = 294 # cm
     robot_radius = 10 # cm
