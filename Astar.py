@@ -241,7 +241,7 @@ class AStarPlanner:
 def get_AStarPlanner(grid_size=3.5):
     x_width = 294 # cm
     y_width = 294 # cm
-    robot_radius = 8/grid_size # cm
+    robot_radius = 10 # cm
 
     # set obstacle positions
     ox, oy = [], []
@@ -257,21 +257,21 @@ def get_AStarPlanner(grid_size=3.5):
              [[180.9, 204.2], [207.2, 204.2], [207.2, 214.2], [180.9, 214.2]]]
     for column in obstacles:
         # print(column[0][0],column[1][0],column[0][1],column[2][1])
-        for x in range(int(column[0][0]/grid_size),int(column[1][0]/grid_size)):
-            for y in range(int(column[0][1]/grid_size),int(column[2][1]/grid_size)):
+        for x in range(int(column[0][0]),int(column[1][0])):
+            for y in range(int(column[0][1]),int(column[2][1])):
                 ox.append(x)
                 oy.append(y)
 
-    for i in range(0, int(x_width/grid_size)):
+    for i in range(0, int(x_width)):
         ox.append(i)
         oy.append(0.0)
-    for i in range(0, int(y_width/grid_size)):
-        ox.append(int(x_width/grid_size))
+    for i in range(0, int(y_width)):
+        ox.append(int(x_width))
         oy.append(i)
-    for i in range(0, int(x_width/grid_size)):
+    for i in range(0, int(x_width)):
         ox.append(i)
-        oy.append(int(y_width/grid_size))
-    for i in range(0, int(y_width/grid_size)):
+        oy.append(int(y_width))
+    for i in range(0, int(y_width)):
         ox.append(0.0)
         oy.append(i)
     # for i in range(-10, 40):
@@ -292,14 +292,18 @@ def get_AStarPlanner(grid_size=3.5):
     return a_star
 
 def main():
-    grid_size = 3.5 # cm
-    sx = 50/grid_size  # cm
-    sy = 20/grid_size  # cm
-    gx = 250.0/grid_size  # cm
-    gy = 80.0/grid_size  # cm
+    grid_size = 5 # cm
+    sx = 50  # cm
+    sy = 20  # cm
+    gx = 250.0  # cm
+    gy = 80.0  # cm
     
     a_star = get_AStarPlanner(grid_size=grid_size)
     rx, ry = a_star.planning(sx, sy, gx, gy)
+    rx.reverse()
+    ry.reverse()
+    print(rx)
+    print(ry)
 
     if show_animation:  # pragma: no cover
         plt.plot(sy, sx, "og")
