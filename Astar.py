@@ -291,7 +291,7 @@ def get_AStarPlanner(grid_size=3.5):
     
     return a_star
 
-def main():
+if __name__ == '__main__':
     grid_size = 5 # cm
     sx = 50  # cm
     sy = 20  # cm
@@ -312,7 +312,4 @@ def main():
         plt.pause(0.001)
         plt.show()
 
-
-if __name__ == '__main__':
-    main()
 
