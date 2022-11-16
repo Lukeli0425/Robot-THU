@@ -311,5 +311,3 @@ if __name__ == '__main__':
         plt.plot(ry, rx, "-r")
         plt.pause(0.001)
         plt.show()
-
-
