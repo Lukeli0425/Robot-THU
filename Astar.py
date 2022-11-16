@@ -274,12 +274,6 @@ def get_AStarPlanner(grid_size=3.5):
     for i in range(0, int(y_width/grid_size)):
         ox.append(0.0)
         oy.append(i)
-    # for i in range(-10, 40):
-    #     ox.append(20.0)
-    #     oy.append(i)
-    # for i in range(0, 40):
-    #     ox.append(40.0)
-    #     oy.append(60.0 - i)
 
     if show_animation:  # pragma: no cover
         plt.figure(figsize=(8,8))
