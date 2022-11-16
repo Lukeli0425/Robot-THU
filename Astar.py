@@ -107,10 +107,17 @@ class AStarPlanner:
             closed_set[c_id] = current
 
             # expand_grid search grid based on motion model
+            last_x, last_y = 0,0
             for i, _ in enumerate(self.motion):
-                node = self.Node(current.x + self.motion[i][0],
-                                 current.y + self.motion[i][1],
-                                 current.cost + self.motion[i][2], c_id)
+                if i==0 or (last_x == self.motion[i][0] and last_y == self.motion[i][1]):
+                    node = self.Node(current.x + self.motion[i][0],
+                                    current.y + self.motion[i][1],
+                                    current.cost + self.motion[i][2], c_id)
+                else: # penalty for change of direction
+                    node = self.Node(current.x + self.motion[i][0],
+                                    current.y + self.motion[i][1],
+                                    current.cost + self.motion[i][2]+20, c_id)
+                last_x, last_y = self.motion[i][0], self.motion[i][1]
                 n_id = self.calc_grid_index(node)
 
                 # If the node is not safe, do nothing
@@ -292,11 +299,11 @@ def get_AStarPlanner(grid_size=3.5):
     return a_star
 
 if __name__ == '__main__':
-    grid_size = 5 # cm
+    grid_size = 8 # cm
     sx = 50  # cm
     sy = 20  # cm
     gx = 250.0  # cm
-    gy = 80.0  # cm
+    gy = 260.0  # cm
     
     a_star = get_AStarPlanner(grid_size=grid_size)
     rx, ry = a_star.planning(sx, sy, gx, gy)
