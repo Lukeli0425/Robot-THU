@@ -249,7 +249,7 @@ class AStarPlanner:
 def get_AStarPlanner(grid_size=8):
     x_width = 294 # cm
     y_width = 294 # cm
-    robot_radius = 10 # cm
+    robot_radius = 15 # cm
 
     # set obstacle positions
     ox, oy = [], []
@@ -294,15 +294,16 @@ def get_AStarPlanner(grid_size=8):
     return a_star
 
 if __name__ == '__main__':
-    grid_size = 8 # cm
+    grid_size = 30 # cm
     
     a_star = get_AStarPlanner(grid_size=grid_size)
     
-    points = [[280,120], [190,100], [170,70], [75,100], [100,180]]
+    # points = [[20,86], [20,180], [165,260]]
+    points = [[165,260], [100,45]]
     for i in range(len(points)-1):
         start, goal = points[i], points[i+1]
         rx, ry = a_star.planning(start[0], start[1], goal[0], goal[1])
-
+        print('line!',rx, ry)
         plt.plot(start[1], start[0], "og")
         plt.plot(goal[1], goal[0], "xb")
         plt.plot(ry, rx, "-r")
