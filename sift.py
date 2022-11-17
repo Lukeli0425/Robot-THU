@@ -5,7 +5,7 @@ import os
 
 def knn_match(img1, img2):
     ratio = 0.40
-
+    
     # 创建sift特征检测对象
     sift = cv2.SIFT_create()
 
@@ -22,6 +22,13 @@ def knn_match(img1, img2):
             good.append([m])
 
     return len(good)
+
+def judge(img1,img2,threshold):
+    match_num = knn_match(img1,img2)
+    if match_num < threshold:
+        return False
+    else:
+        return True
 
 if __name__ == '__main__':
     pic_names = [i.split('.')[0] for i in os.listdir('new_flower')]

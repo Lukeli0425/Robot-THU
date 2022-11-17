@@ -55,6 +55,10 @@ def angle(dir):
     X = dir[:,0]
     Y = dir[:,1]
     theta = np.arctan(Y/X)
+    if X < 0 and Y < 0:
+        return theta / 3.1415 * 180 - 180
+    if X < 0 and Y > 0:
+        return theta / 3.1415 * 180 + 180
     return theta / 3.1415 * 180
         
 # 场地内测的边长约为294cm x 294cm；内部：
@@ -144,4 +148,3 @@ def load_tag_pos():
     # tag_poses['71'] = expand2([M-114, 30.3], 'y')
     tag_poses['71'] = expand2([M-114, 30.3], 'x')
     return tag_poses
-
