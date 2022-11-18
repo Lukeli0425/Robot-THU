@@ -23,12 +23,11 @@ def knn_match(img1, img2):
 
     return len(good)
 
-def judge(img1,img2,threshold=10):
-    match_num = knn_match(img1,img2)
-    if match_num < threshold:
-        return False
-    else:
-        return True
+def judge(img1, img2, threshold=10):
+    
+    match_num = knn_match(img1, img2)
+    
+    return False if match_num < threshold else True
 
 if __name__ == '__main__':
     pic_names = [i.split('.')[0] for i in os.listdir('new_flower')]
