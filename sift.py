@@ -23,7 +23,7 @@ def knn_match(img1, img2):
 
     return len(good)
 
-def judge(img1,img2,threshold):
+def judge(img1,img2,threshold=10):
     match_num = knn_match(img1,img2)
     if match_num < threshold:
         return False
