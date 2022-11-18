@@ -50,8 +50,16 @@ def wait_req():
         if test_read== b'\xa3' :
             print('read REQ finished!') 
             break
-# 计算角度
+
 def angle(dir):
+    """根据方向向量计算朝向角。
+
+    Args:
+        dir (list): 方向向量。
+
+    Returns:
+        float: 朝向角。
+    """
     X = dir[:,0]
     Y = dir[:,1]
     theta = np.arctan(Y/X)
