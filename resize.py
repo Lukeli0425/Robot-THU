@@ -1,5 +1,6 @@
 import os
 import cv2
+
 def resize(file_path,out_path,factor=1):
     if not os.path.exists(out_path):
         os.makedirs(out_path)
