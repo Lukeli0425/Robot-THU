@@ -6,6 +6,7 @@ import os
 import numpy as np
 
 os.system('sh ./stop_sys_ttyPS0.sh')
+
 def run_action(cmd):
     ser = serial.Serial("/dev/ttyPS0", 9600, timeout=5)
     cnt_err = 0
@@ -156,3 +157,69 @@ def load_tag_pos():
     # tag_poses['71'] = expand2([M-114, 30.3], 'y')
     tag_poses['71'] = expand2([M-114, 30.3], 'x')
     return tag_poses
+
+
+screen_center_relative_pos = [16, -10]
+# 按钮相对于TAG左下角的位置（cm）
+button_relative_pos = [7, -9]
+
+class ExtraInfoLoader():
+
+    def __init__(self, 
+                 tagpos_dict: dict,
+                 button_relative_pos: list = [7, -9],
+                 screen_center_relative_pos: list = [16, -10],
+                 ) -> None:
+        """
+        params:
+        - tagpos_dict: provider by function `load_tag_pos`
+        - button_relative_pos: location of button relative to the lower-left corner of the tag
+        - screen_center_relative_pos: location of button relative to the lower-left corner of the tag
+        """
+        self.tagpos_dict = tagpos_dict
+        self.button_rloc = button_relative_pos
+        self.screen_rloc = screen_center_relative_pos
+        
+    @staticmethod
+    def get_normal(point):
+        x = point[1] - point[0]
+        y = point[2] - point[1]
+        return ExtraInfoLoader.cross_prod(y, x)
+
+    @staticmethod
+    def cross_prod(x, y):
+        z = np.array([
+            x[1] * y[2] - x[2] * y[1],
+            x[2] * y[0] - x[0] * y[2],
+            x[0] * y[1] - x[1] * y[0]
+        ])
+        z = z / (((z * z).sum())**0.5)
+        return z
+
+    def get_extra_info(self, tag_id: int):
+        """
+        ### params:
+        - tag_id: integer tag id
+
+        ### returns:
+        - button_pos: 3D location of the center of the button corresponding to this tag
+        - screen_pos: 3D location of the center of the screen corresponding to this tag
+        - face: a 3D unit vector representing the facing direction of this tag
+        """
+
+        assert isinstance(tag_id, int) and tag_id >= 43 and tag_id <=71, \
+            "tag_id must be an integer within [43, 71]"
+
+        tag_loc = self.tagpos_dict[str(tag_id)]
+        LL = tag_loc[0,...]
+
+        face = self.get_normal(tag_loc)
+        actual_y = np.array([0, 0, -1])
+        actial_x = self.cross_prod(face, actual_y)
+
+        # 按钮的坐标
+        button_pos = LL + actual_y * self.button_rloc[1] + actial_x * self.button_rloc[0]
+        # 屏幕中心的坐标
+        screen_pos = LL + actual_y * self.screen_rloc[1] + actial_x * self.screen_rloc[0]
+
+        return button_pos, screen_pos, face
