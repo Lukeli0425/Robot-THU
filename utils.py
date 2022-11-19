@@ -14,7 +14,7 @@ def run_action(cmd):
         test_read = ser.read()
         print('test_read', test_read)
         cnt_err += 1
-        if test_read== b'\xa3' or cnt_err == 50:
+        if test_read == b'\xa3' or cnt_err == 50:
             break
     
     if cnt_err == 50:
@@ -40,8 +40,8 @@ def cmd2data(cmd):
     for i in cmd:
         cnt+=1
         cmd_list+=[ord(i)]
-    cmd_list=[0xff,0xff]+[(cnt+5)>>8,(cnt+5)&255]+[0x01,(cnt+1)&255,0x03]+cmd_list
-    cmd_list=cmd_list+crc_calculate(cmd_list)
+    cmd_list = [0xff,0xff]+[(cnt+5)>>8,(cnt+5)&255]+[0x01,(cnt+1)&255,0x03]+cmd_list
+    cmd_list = cmd_list+crc_calculate(cmd_list)
     return cmd_list
 
 def wait_req():
@@ -54,10 +54,8 @@ def wait_req():
 
 def angle(dir):
     """根据方向向量计算朝向角。
-
     Args:
         dir (list): 方向向量。
-
     Returns:
         float: 朝向角。
     """
