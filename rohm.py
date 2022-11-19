@@ -12,7 +12,7 @@ def load_tag_pos():
     def expand(LL):
         LL.append(0)
         a = np.array([
-            [0, 0, 0], [5, 0, 0], [5, 5, 0], [0, 5, 0]
+            [.0, .0, .0], [5., 0., 0.], [5., 5., 0.], [0., 5., 0.]
         ])
         return a + np.array(LL)
     
