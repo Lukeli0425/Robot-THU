@@ -32,7 +32,7 @@ def judge(img1, img2, threshold=10):
 if __name__ == '__main__':
     pic_names = [i.split('.')[0] for i in os.listdir('new_flower')]
     print('使用神奇的SIFT算法和KNN算法结合判断匹配点数...')
-    img2 = cv2.imread('3.jpg', 1)
+    img2 = cv2.imread('ss.jpg', 1)
     for i in pic_names:
         img1 = cv2.imread('./new_flower/%s.jpg'%i, 1)
         good = knn_match(img1, img2)
