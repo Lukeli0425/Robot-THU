@@ -263,6 +263,7 @@ def get_AStarPlanner(grid_size=8):
              [[7, 222.2], [31, 222.2], [31, 246.2], [7, 246.2]], 
              [[208.2, 252.6], [232.2, 252.6], [232.2, 276.6], [208.2, 276.6]],
              [[180.9, 204.2], [207.2, 204.2], [207.2, 214.2], [180.9, 214.2]]]
+
     for column in obstacles:
         # print(column[0][0],column[1][0],column[0][1],column[2][1])
         for x in range(int(column[0][0]),int(column[1][0])):
