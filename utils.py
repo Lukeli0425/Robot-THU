@@ -67,3 +67,17 @@ def angle(dir):
     if X < 0 and Y > 0:
         return theta / 3.1415 * 180 + 180
     return theta / 3.1415 * 180
+
+
+def angle_dir(angle):
+    """根据朝向角计算方向向量
+    Returns:
+        dir(list):方向向量。
+    """
+    X = np.cos(angle*3.1415/180)
+    Y = np.sin(angle*3.1415/180)
+    
+    dir = np.concatenate([X,Y],axis=0)
+    dir = np.array([dir])
+    
+    return dir

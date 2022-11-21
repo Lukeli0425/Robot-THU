@@ -83,7 +83,7 @@ def load_tag_pos():
     tag_poses['64'] = expand2([M-6.6-25, M-126.3-25], '-y')
     tag_poses['65'] = expand2([M-62-25, M-17.6-25], '-y')
     tag_poses['66'] = expand2([M-62-25, M-17.6], '-x')
-    tag_poses['67'] = expand2([M-62, M-17.6], 'y')
+    tag_poses['67'] = expand2([M-62, M-17.6-25], 'x')
     tag_poses['68'] = expand2([7.0 + 25, M-48], 'y')
     tag_poses['69'] = expand2([M-114-25, 30.3 + 25], '-x')
     tag_poses['70'] = expand2([M-114, 30.3 + 25], 'y')
